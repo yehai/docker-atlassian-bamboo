@@ -25,7 +25,7 @@ RUN set -x \
                               "${BAMBOO_INSTALL}/conf/server.xml" \
     && touch -d "@0"          "${BAMBOO_INSTALL}/conf/server.xml"
 
-COPY ./${BAMBOO_VERSION}/*.jar "${JIRA_INSTALL}/atlassian-bamboo/WEB-INF/lib/"
+COPY ./${BAMBOO_VERSION}/*.jar "${BAMBOO_INSTALL}/atlassian-bamboo/WEB-INF/lib/"
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
 # here we only ever run one process anyway.
