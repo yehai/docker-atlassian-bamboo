@@ -14,6 +14,7 @@ RUN set -x \
     && chown -R daemon:daemon "${BAMBOO_HOME}" \
     && mkdir -p               "${BAMBOO_INSTALL}" \
     && curl -Ls               "https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-${BAMBOO_VERSION}.tar.gz" | tar -zx --directory  "${BAMBOO_INSTALL}" --strip-components=1 --no-same-owner \
+    && rm -f                   "${BAMBOO_INSTALL}/atlassian-bamboo/WEB-INF/lib/atlassian-extras-decoder-v2-*.*.*.jar" \
     && curl -Ls                "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.40.tar.gz" | tar -xz --directory "${BAMBOO_INSTALL}/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar" \
     && chmod -R 700           "${BAMBOO_INSTALL}" \
     && chown -R daemon:daemon "${BAMBOO_INSTALL}" \
@@ -24,7 +25,7 @@ RUN set -x \
                               "${BAMBOO_INSTALL}/conf/server.xml" \
     && touch -d "@0"          "${BAMBOO_INSTALL}/conf/server.xml"
 
-
+COPY ./${BAMBOO_VERSION}/*.jar "${JIRA_INSTALL}/atlassian-bamboo/WEB-INF/lib/"
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
 # here we only ever run one process anyway.
